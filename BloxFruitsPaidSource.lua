@@ -144,7 +144,7 @@ function CheckLv()
 		QuestLevel = 1
 		QuestPos = CFrame.new(5307.86523, 1.65514696, 474.632904, -0.102480404, -1.06170495e-08, -0.994735003, 4.35499992e-08, 1, -1.51598876e-08, 0.994735003, -4.48742981e-08, -0.102480404)
 		MonPos = CFrame.new(5119.0542, 0.523922741, 464.480469, 0.636900544, 4.51006272e-08, 0.770945966, -4.44949926e-08, 1, -2.17417853e-08, -0.770945966, -2.04558805e-08, 0.636900544)
-	elseif Lv == 210 or Lv <= 219 then
+	elseif Lv == 210 or Lv <= 249 then
 		Ms = "Dangerous Prisoner [Lv. 210]"
 		NameMon = "Dangerous Prisoner"
 		QuestName = "PrisonerQuest"
@@ -318,7 +318,7 @@ spawn(function()
 			if _G.AutoFarmLevel and _G.BringMob and LevelBring then
 				if game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest.Visible == true then
 					for i,v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
-						if v.Name == Ms and (v.HumanoidRootPart.Position - PosMon.Position).magnitude <= 350 then
+						if v.Name == Ms and (v.HumanoidRootPart.Position - PosMon.Position).magnitude <= 450 then
 							if v.Humanoid:FindFirstChild("Animator") then
 								v.Humanoid.Animator:Destroy()
 							end
@@ -327,7 +327,7 @@ spawn(function()
 							v.Humanoid.JumpPower = 0
 							v.Humanoid.WalkSpeed = 0
 							v.HumanoidRootPart.CanCollide = false
-							v.HumanoidRootPart.Size = Vector3.new(5,5,5)
+							v.HumanoidRootPart.Size = Vector3.new(1,1,1)
 							v.HumanoidRootPart.CFrame = PosMon
 							sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", math.huge)
 						end
@@ -780,7 +780,7 @@ Boss:AddButton('Refresh Boss',function()
 			if b.Name == "Ice Admiral [Lv. 700] [Boss]" then
 			elseif b.Name == "rip_indra [Lv. 1500] [Boss]" then
 			else
-				table.add(BossList,b.Name)
+				table.insert(DropBoss,b.Name)
 			end
 		end
 	end
@@ -790,7 +790,7 @@ Boss:AddButton('Refresh Boss',function()
 			if b.Name == "Ice Admiral [Lv. 700] [Boss]" then
 			elseif b.Name == "rip_indra [Lv. 1500] [Boss]" then
 			else
-				table.add(BossList,b.Name)
+				table.insert(DropBoss,b.Name)
 			end
 		end
 	end
@@ -810,11 +810,11 @@ Options.SelectWeapon:OnChanged(function(value)
 end)
 
 MainR1:AddButton('Refresh Weapon',function()
-	table.clear(DropTool)table.clear(DropTool)
+	table.clear(DropTool)
 	WeaponList = {}
 	for i,t in pairs(game:GetService("Players").LocalPlayer.Backpack:GetChildren()) do
 		if t:IsA("Tool") then
-			table.add(WeaponList,t.Name)
+			table.insert(DropTool,t.Name)
 		end
 	end
 end)
