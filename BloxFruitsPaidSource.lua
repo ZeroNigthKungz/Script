@@ -283,7 +283,7 @@ spawn(function()
 											v.Humanoid.JumpPower = 0
 											v.Humanoid.WalkSpeed = 0
 											v.HumanoidRootPart.CanCollide = false
-											v.HumanoidRootPart.Size = Vector3.new(1,1,1)
+											v.HumanoidRootPart.Size = Vector3.new(3,3,3)
                                             game:GetService("VirtualUser"):CaptureController()
 			                                game:GetService("VirtualUser"):Button1Down(Vector2.new(1280, 670),workspace.CurrentCamera.CFrame)
 											PosMon = v.HumanoidRootPart.CFrame
@@ -318,7 +318,7 @@ spawn(function()
 			if _G.AutoFarmLevel and _G.BringMob and LevelBring then
 				if game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest.Visible == true then
 					for i,v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
-						if v.Name == Ms and (v.HumanoidRootPart.Position - PosMon.Position).magnitude <= 450 then
+						if v.Name == Ms and (v.HumanoidRootPart.Position - PosMon.Position).magnitude <= 1000 then
 							if v.Humanoid:FindFirstChild("Animator") then
 								v.Humanoid.Animator:Destroy()
 							end
@@ -327,7 +327,7 @@ spawn(function()
 							v.Humanoid.JumpPower = 0
 							v.Humanoid.WalkSpeed = 0
 							v.HumanoidRootPart.CanCollide = false
-							v.HumanoidRootPart.Size = Vector3.new(1,1,1)
+							v.HumanoidRootPart.Size = Vector3.new(3,3,3)
 							v.HumanoidRootPart.CFrame = PosMon
 							sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", math.huge)
 						end
@@ -525,8 +525,8 @@ coroutine.wrap(function()
                     if tick() - cooldownfastattack > 5 then wait(.9) cooldownfastattack = tick() end
                 end
               elseif _G.Fast_Attack == true then
-                  if ac.hitboxMagnitude ~= 80 then
-                     ac.hitboxMagnitude = 80
+                  if ac.hitboxMagnitude ~= 150 then
+                     ac.hitboxMagnitude = 150
                   end
                  ac:attack()
              end
@@ -691,6 +691,41 @@ end)
 
 local StatPoint = game:GetService("Players").LocalPlayer.Data.Points.Value
 
+local CamShake = require(game.ReplicatedStorage.Util.CameraShaker)
+
+spawn(function()
+    while DisibleCamShake do
+        CamShake:Stop()
+        wait()
+    end
+end)
+
+AllCode = {
+    "GAMER_ROBOT_1M",
+    "ADMINGIVEAWAY",
+    "GAMERROBOT_YT ",
+    "kittgaming",
+    "Sub2Fer999",
+    "Enyu_is_Pro",
+    "Magicbus",
+    "JCWK",
+    "Starcodeheo",
+    "fudd10_v2",
+    "SUB2GAMERROBOT_EXP1",
+    "Sub2NoobMaster123",
+    "Sub2Daigrock",
+    "Axiore",
+    "TantaiGaming",
+    "StrawHatMaine",
+    "Sub2OfficialNoobie",
+    "Fudd10",
+    "Bignews",
+    "TheGreatAce"
+}
+function Redeem(Code)
+	game:GetService("ReplicatedStorage").Remotes.Redeem:InvokeServer(Code)
+end
+------------------------------------------------------------
 local Window = Library:CreateWindow({
     Title = 'Zerkro Hub - Premium Edition | Blox Fruits',
     Center = true, 
@@ -730,10 +765,16 @@ Toggles.AutoFarmLevel:OnChanged(function(value)
 end)
 
 Level:AddToggle('AutoFarmLevelFast', {
-	Text = 'Auto Farm Level [Fast]',
+	Text = 'Auto Farm Level [Fast] [Not Work Now]',
     Default = false,
     Tooltip = 'Auto Farm Level 1-2400 but it fast',
 })
+
+Level:AddButton('Redeem All Code',function()
+	for i,v in pairs(AllCode) do
+		Redeem(v)
+	end
+end)
 
 Toggles.AutoFarmLevelFast:OnChanged(function(value)
     _G.AutoFarmLevelFast = value
@@ -810,11 +851,11 @@ Options.SelectWeapon:OnChanged(function(value)
 end)
 
 MainR1:AddButton('Refresh Weapon',function()
-	table.clear(DropTool)
+	table.clear(WeaponList)
 	WeaponList = {}
 	for i,t in pairs(game:GetService("Players").LocalPlayer.Backpack:GetChildren()) do
 		if t:IsA("Tool") then
-			table.insert(DropTool,t.Name)
+			table.insert(WeaponList,t.Name)
 		end
 	end
 end)
@@ -989,6 +1030,15 @@ ShopL1:AddButton("Random Fruit",function()
 end)
 
 --Misc
+MiscL1:AddToggle('DisibleCameraShake', {
+	Text = 'DisibleCamShake',
+    Default = true,
+})
+
+Toggles.DisibleCameraShake:OnChanged(function(value)
+    DisibleCamShake = value
+end)
+
 MiscL1:AddToggle('AutoBuso', {
 	Text = 'Auto Buso Haki',
     Default = true,
