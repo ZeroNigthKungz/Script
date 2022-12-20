@@ -6707,47 +6707,47 @@ local Misc = PepsiUi:CreateTab({
     Name = "Misc"
 })
 -----------------------------------------------------------
-local MainL1 = Page:CreateSection({
+local MainL1 = Main:CreateSection({
 	Name = "Auto Farm",
 	Side = "Left"
 })
 
-local MainR1 = Page:CreateSection({
+local MainR1 = Main:CreateSection({
 	Name = "Settings",
 	Side = "Right"
 })
 
-local StatL1 = Page:CreateSection({
+local StatL1 = Stat:CreateSection({
 	Name = "Status",
 	Side = "Left"
 })
 
-local StatR1 = Page:CreateSection({
+local StatR1 = Stat:CreateSection({
 	Name = "Auto Point",
 	Side = "Right"
 })
 
-local TpL1 = Page:CreateSection({
+local TpL1 = Tp:CreateSection({
 	Name = "Island",
 	Side = "Left"
 })
 
-local TpR1 = Page:CreateSection({
+local TpR1 = Tp:CreateSection({
 	Name = "World",
 	Side = "Right"
 })
 
-local ShopL1 = Page:CreateSection({
+local ShopL1 = Shop:CreateSection({
 	Name = "Devil Fruit",
 	Side = "Left"
 })
 
-local MiscL1 = Page:CreateSection({
+local MiscL1 = Misc:CreateSection({
 	Name = "More Function",
 	Side = "Left"
 })
 
-local MiscR1 = Page:CreateSection({
+local MiscR1 = Misc:CreateSection({
 	Name = "Servers",
 	Side = "Right"
 })
