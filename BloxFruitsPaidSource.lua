@@ -6844,11 +6844,6 @@ MainR1:AddToggle({
 
 
 -------------------TP
-TpL1:AddButton("Stop Tween",function()
-	Tween:Cancel()
-end)
-
-TpL1:AddDivider()
 
 TpL1:AddButton({
 	Name = "Pirate Starter",
