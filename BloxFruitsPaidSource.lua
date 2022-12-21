@@ -6498,6 +6498,11 @@ for i,t in pairs(game:GetService("Players").LocalPlayer.Backpack:GetChildren()) 
 		table.insert(WeaponList,t.Name)
 	end
 end
+for i,t in pairs(game.Players.LocalPlayer.Character:GetChildren()) do  
+    if t:IsA("Tool") then
+    	table.insert(WeaponList,t.Name)
+    end
+end
 
 BossList = {}
 
@@ -6822,6 +6827,11 @@ MainR1:AddButton({
 				table.insert(DropTool,t.Name)
 			end
 		end
+		for i,t in pairs(game.Players.LocalPlayer.Character:GetChildren()) do  
+			if t:IsA("Tool") then
+				table.insert(DropTool,t.Name)
+			end
+		end
     end
 })
 
@@ -6841,10 +6851,47 @@ MainR1:AddToggle({
     end
 })
 -------------------Stat
+StatR1:AddToggle({
+    Name = "Melee",
+	Value = false,
+    Callback = function(value)
+        _G.AutoMelee = value
+    end
+})
 
+StatR1:AddToggle({
+    Name = "Defense",
+	Value = false,
+    Callback = function(value)
+        _G.AutoDefense = value
+    end
+})
+
+StatR1:AddToggle({
+    Name = "Sword",
+	Value = false,
+    Callback = function(value)
+        _G.AutoSword = value
+    end
+})
+
+StatR1:AddToggle({
+    Name = "Gun",
+	Value = false,
+    Callback = function(value)
+        _G.AutoGun = value
+    end
+})
+
+StatR1:AddToggle({
+    Name = "BloxFruit",
+	Value = false,
+    Callback = function(value)
+        _G.AutoBloxFruit = value
+    end
+})
 
 -------------------TP
-
 TpL1:AddButton({
 	Name = "Pirate Starter",
 	Callback = function()
