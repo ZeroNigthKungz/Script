@@ -6248,6 +6248,14 @@ end)
 
 spawn(function()
 	while wait() do
+		if _G.AutoFarmLevelFast then
+			CheckLv()
+		end
+	end
+end)
+
+spawn(function()
+	while wait() do
 		pcall(function()
 			CheckLv()
 			if _G.AutoFarmLevel and _G.BringMob and LevelBring then
@@ -6785,14 +6793,14 @@ local DropBoss = MainL1:AddDropdown({
 MainL1:AddButton({
     Name = "Refresh Boss",
     Callback = function()
-		table.clear(BossList)
+		DropBoss:Clear()
 		BossList = {}
 		for i,b in pairs(game.ReplicatedStorage:GetChildren()) do
 			if string.find(b.Name, "Boss") then
 				if b.Name == "Ice Admiral [Lv. 700] [Boss]" then
 				elseif b.Name == "rip_indra [Lv. 1500] [Boss]" then
 				else
-					table.insert(BossList,b.Name)
+					DropBoss.Add(b.Name)
 				end
 			end
 		end	
@@ -6801,7 +6809,7 @@ MainL1:AddButton({
 				if b.Name == "Ice Admiral [Lv. 700] [Boss]" then
 				elseif b.Name == "rip_indra [Lv. 1500] [Boss]" then
 				else
-					table.insert(BossList,b.Name)
+					DropBoss.Add(b.Name)
 				end
 			end
 		end
@@ -6820,16 +6828,16 @@ local DropTool = MainR1:AddDropdown({
 MainR1:AddButton({
     Name = "Refresh Weapon",
     Callback = function()
-		table.clear(WeaponList)
+		DropTool:Clear()
 		WeaponList = {}
 		for i,t in pairs(game:GetService("Players").LocalPlayer.Backpack:GetChildren()) do
 			if t:IsA("Tool") then
-				table.insert(WeaponList,t.Name)
+				DropTool.Add(t.Name)
 			end
 		end
 		for i,t in pairs(game.Players.LocalPlayer.Character:GetChildren()) do  
 			if t:IsA("Tool") then
-				table.insert(WeaponList,t.Name)
+				DropTool.Add(t.Name)
 			end
 		end
     end
