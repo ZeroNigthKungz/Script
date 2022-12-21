@@ -6793,14 +6793,13 @@ local DropBoss = MainL1:AddDropdown({
 MainL1:AddButton({
     Name = "Refresh Boss",
     Callback = function()
-		table.clear(DropBoss)
-		BossList = {}
+		table.clear(BossList)
 		for i,b in pairs(game.ReplicatedStorage:GetChildren()) do
 			if string.find(b.Name, "Boss") then
 				if b.Name == "Ice Admiral [Lv. 700] [Boss]" then
 				elseif b.Name == "rip_indra [Lv. 1500] [Boss]" then
 				else
-					table.insert(DropBoss,b.Name)
+					table.insert(BossList,b.Name)
 				end
 			end
 		end	
@@ -6809,7 +6808,7 @@ MainL1:AddButton({
 				if b.Name == "Ice Admiral [Lv. 700] [Boss]" then
 				elseif b.Name == "rip_indra [Lv. 1500] [Boss]" then
 				else
-					table.insert(DropBoss,b.Name)
+					table.insert(BossList,b.Name)
 				end
 			end
 		end
@@ -6828,16 +6827,15 @@ local DropTool = MainR1:AddDropdown({
 MainR1:AddButton({
     Name = "Refresh Weapon",
     Callback = function()
-		table.clear(DropTool)
-		WeaponList = {}
+		table.clear(WeaponList)
 		for i,t in pairs(game:GetService("Players").LocalPlayer.Backpack:GetChildren()) do
 			if t:IsA("Tool") then
-				table.insert(DropTool,t.Name)
+				table.insert(WeaponList,t.Name)
 			end
 		end
 		for i,t in pairs(game.Players.LocalPlayer.Character:GetChildren()) do  
 			if t:IsA("Tool") then
-				table.insert(DropTool,t.Name)
+				table.insert(WeaponList,t.Name)
 			end
 		end
     end
@@ -7033,12 +7031,6 @@ TpR1:AddButton({
 	end
 })
 
-TpR1:AddButton({
-	Name = "Third Sea",
-	Callback = function()
-		game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("TravelZou")
-	end
-})
 -------------------Shop
 ShopL1:AddToggle({
     Name = "Auto Random Fruit",
