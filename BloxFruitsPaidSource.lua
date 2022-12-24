@@ -5944,7 +5944,6 @@ function library:CreateWindow(options, ...)
 	end
 	return windowFunctions
 end
-
 --Function
 
 function ToTarget1(Pos)
@@ -6184,6 +6183,11 @@ function CheckBoss()
 	end
 end
 
+function Attack()
+	game:GetService("VirtualUser"):CaptureController()
+	game:GetService("VirtualUser"):Button1Down(Vector2.new(1280, 670),workspace.CurrentCamera.CFrame)
+end
+
 spawn(function()
 	while wait() do
 		if _G.AutoFarmLevel then
@@ -6219,8 +6223,6 @@ spawn(function()
 											v.Humanoid.WalkSpeed = 0
 											v.HumanoidRootPart.CanCollide = false
 											v.HumanoidRootPart.Size = Vector3.new(3,3,3)
-                                            game:GetService("VirtualUser"):CaptureController()
-			                                game:GetService("VirtualUser"):Button1Down(Vector2.new(1280, 670),workspace.CurrentCamera.CFrame)
 											PosMon = v.HumanoidRootPart.CFrame
 											LevelBring = true
 										until _G.AutoFarmLevel == false or v.Humanoid.Health <= 0 or game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest.Visible == false or not game:GetService("Workspace").Enemies:FindFirstChild(Ms)
@@ -6250,6 +6252,97 @@ spawn(function()
 	while wait() do
 		if _G.AutoFarmLevelFast then
 			CheckLv()
+			local Lv = game:GetService("Players").LocalPlayer.Data.Level.Value
+			local PlrNameFarm = game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest.Container.QuestTitle.Title.Text
+			local FarmLvQreward = game:GetService("Players").localPlayer.PlayerGui.Main.Quest.Container.QuestReward.Title.Text
+			if Lv <= 299 and game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest.Visible == false then
+				local args = {
+					[1] = "PlayerHunter"
+				}
+
+				game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
+			elseif game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest.Visible == true then
+				if FarmLvQreward == "Reward:\n$20,000\n50,000,000 Exp." then
+					for i,p in pairs(game:GetService("Players"):GetChildren()) do
+						if "Defeat "..p.Name.." (0/1)" == PlrNameFarm then
+							if p.Data.Level.Value >= 20 then
+								EquipTool(SelectTool)
+								AutoHaki()
+								ToTarget2(p.Character.HumanoidRootPart.CFrame)
+								Attack()
+							else
+								local args = {
+									[1] = "AbandonQuest"
+								}
+
+								game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
+							end
+						end
+					end
+				elseif game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest.Visible == false then
+					LevelBring = false
+					ToTarget2(QuestPos)
+					local args = {
+						[1] = "StartQuest",
+						[2] = QuestName,
+						[3] = QuestLevel
+					}
+					game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
+					CheckLv()
+				elseif game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest.Visible == true then
+					pcall(function()
+						CheckLv()
+						if game:GetService("Workspace").Enemies:FindFirstChild(Ms) then
+							for i,v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
+								if v.Name == Ms and v:FindFirstChild("Humanoid") then
+									if v.Humanoid.Health > 0 then
+										if string.find(game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest.Container.QuestTitle.Title.Text, NameMon) then
+											repeat wait()
+												_G.Part = true
+												EquipTool(SelectTool)
+												AutoHaki()
+												ToTarget1(v.HumanoidRootPart.CFrame * CFrame.new(0,30,0))
+												if v.Humanoid:FindFirstChild("Animator") then
+													v.Humanoid.Animator:Destroy()
+												end
+												v.Humanoid:ChangeState(11)
+												v.Humanoid:ChangeState(14)
+												v.Humanoid.JumpPower = 0
+												v.Humanoid.WalkSpeed = 0
+												v.HumanoidRootPart.CanCollide = false
+												v.HumanoidRootPart.Size = Vector3.new(3,3,3)
+												PosMon = v.HumanoidRootPart.CFrame
+												LevelBring = true
+											until _G.AutoFarmLevel == false or v.Humanoid.Health <= 0 or game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest.Visible == false or not game:GetService("Workspace").Enemies:FindFirstChild(Ms)
+											_G.Part = false
+										else
+											LevelBring = false
+											local args = {
+												[1] = "AbandonQuest"
+											}
+
+											game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
+										end
+									end
+								end
+							end
+						else
+							LevelBring = false
+							ToTarget2(MonPos)
+						end
+					end)
+				end
+			elseif Lv >= 300 and game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest.Visible == false then
+				LevelBring = false
+				ToTarget2(QuestPos)
+				local args = {
+					[1] = "StartQuest",
+					[2] = QuestName,
+					[3] = QuestLevel
+				}
+				game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
+				CheckLv()
+			end
 		end
 	end
 end)
@@ -6258,7 +6351,7 @@ spawn(function()
 	while wait() do
 		pcall(function()
 			CheckLv()
-			if _G.AutoFarmLevel and _G.BringMob and LevelBring then
+			if _G.AutoFarmLevel or _G.AutoFarmLevelFast and _G.BringMob and LevelBring then
 				if game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest.Visible == true then
 					for i,v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
 						if v.Name == Ms and (v.HumanoidRootPart.Position - PosMon.Position).magnitude <= 1000 then
@@ -6316,8 +6409,6 @@ spawn(function()
 												v.HumanoidRootPart.Size = Vector3.new(5,5,5)
 												v.HumanoidRootPart.CFrame = PosMon
 												sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", math.huge)
-												game:GetService("VirtualUser"):CaptureController()
-			                                	game:GetService("VirtualUser"):Button1Down(Vector2.new(1280, 670),workspace.CurrentCamera.CFrame)
 											until _G.AutoFarmBoss == false or v.Humanoid.Health <= 0 or not game:GetService("Workspace").Enemies:FindFirstChild(Boss)
 											_G.Part = false
 										else
@@ -6366,11 +6457,8 @@ spawn(function()
 								end
 							end
 						else
+							wait(3)
 							ToTarget2(BossPos)
-							if not game:GetService("Workspace").Enemies:FindFirstChild(Boss) then
-								_G.AutoFarmBoss = false
-								_G.Part = false
-							end
 						end
 					end)
 				end
@@ -6673,6 +6761,24 @@ AllCode = {
 function Redeem(Code)
 	game:GetService("ReplicatedStorage").Remotes.Redeem:InvokeServer(Code)
 end
+
+--Auto rejoin
+spawn(function()
+    while wait() do
+    game:GetService("CoreGui").RobloxPromptGui.promptOverlay.ChildAdded:Connect(function(child)
+                if child.Name == 'ErrorPrompt' and child:FindFirstChild('MessageArea') and child.MessageArea:FindFirstChild("ErrorFrame") then
+                    game:GetService("TeleportService"):Teleport(game.PlaceId)
+            end
+        end)
+    end
+end)
+-- Anti Afk
+local vu = game:GetService("VirtualUser")
+game:GetService("Players").LocalPlayer.Idled:connect(function()
+vu:Button2Down(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
+wait(1)
+vu:Button2Up(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
+end)
 -----------------------------------------------------------
 library.NewWindow = library.CreateWindow
 library.AddWindow = library.CreateWindow
@@ -6682,7 +6788,7 @@ library.W = library.CreateWindow
 local Wait = library.subs.Wait
 
 local PepsiUi = library:CreateWindow({
-    Name = "Zerkro Hub - Premium Edition | Blox Fruits",
+    Name = "Zerkro Hub",
     Theme = {
         Image = "rbxassetid://7483871523",
         Info = "Info",
@@ -6812,6 +6918,22 @@ MainL1:AddButton({
 				end
 			end
 		end
+    end
+})
+
+MainL1:AddToggle({
+    Name = "Auto Farm Boss",
+	Value = false,
+    Callback = function(value)
+        _G.AutoFarmBoss = value
+    end
+})
+
+MainL1:AddToggle({
+    Name = "Accept BossQuest",
+	Value = true,
+    Callback = function(value)
+        _G.BossQuest = value
     end
 })
 
@@ -7030,7 +7152,6 @@ TpR1:AddButton({
 		game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("TravelZou")
 	end
 })
-
 -------------------Shop
 ShopL1:AddToggle({
     Name = "Auto Random Fruit",
@@ -7074,5 +7195,3 @@ MiscR1:AddButton({
 		game:GetService("TeleportService"):Teleport(game.PlaceId, game:GetService("Players"))
 	end
 })
-
-return library, library_flags, library.subs
