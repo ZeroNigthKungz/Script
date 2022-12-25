@@ -36,7 +36,7 @@ function ToTarget2(Pos)
 		Distance = (Pos.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude
 		game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = Pos
 		game.Players.LocalPlayer.Character.Humanoid.Health = 0
-	elseif Distance <= 2000 then
+	elseif Distance <= 2000 or _G.BypassTp == false then
 		Distance = (Pos.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude
 		if Distance < 250 then
 			Speed = 700
