@@ -1046,7 +1046,7 @@ local StatPoint = StatR1:AddLabel('Stat Point : 0')
 
 spawn(function()
 	while wait(.5) do
-		StatPoint:SetText('Stat Point : ',game:GetService("Players").LocalPlayer.Data.Points.Value)
+		StatPoint:SetText('Stat Point : '.. game:GetService("Players").LocalPlayer.Data.Points.Value ..'')
 	end
 end)
 
