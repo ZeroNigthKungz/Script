@@ -339,25 +339,89 @@ spawn(function()
 				if FarmLvQreward == "Reward:\n$20,000\n50,000,000 Exp." then
 					for i,p in pairs(game:GetService("Players"):GetChildren()) do
 						if "Defeat "..p.Name.." (0/1)" == PlrNameFarm then
-							if p.Data.Level.Value >= 20 then
-								local args = {
-									[1] = "EnablePvp"
-								}
+							if game.Players.LocalPlayer.Data.Level.Value >= 20 then
+								if p.Data.Level.Value >= 20 and p.Data.Level.Value <= 700 then
+									local args = {
+										[1] = "EnablePvp"
+									}
 
-								game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
-								EquipTool(SelectTool)
-								AutoHaki()
-								ToTarget2(p.Character.HumanoidRootPart.CFrame)
-								Attack()
-							else
-								local args = {
-									[1] = "AbandonQuest"
-								}
+									game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
+									EquipTool(SelectTool)
+									AutoHaki()
+									ToTarget2(p.Character.HumanoidRootPart.CFrame)
+									Attack()
+								else
+									local args = {
+										[1] = "AbandonQuest"
+									}
 
+									game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
+								end
+							elseif Lv <= 299 and game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest.Visible == false then
+								LevelBring = false
+								ToTarget2(QuestPos)
+								local args = {
+									[1] = "StartQuest",
+									[2] = QuestName,
+									[3] = QuestLevel
+								}
 								game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
+								CheckLv()
+							elseif Lv <= 299 and game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest.Visible == true then
+								pcall(function()
+									CheckLv()
+									if game:GetService("Workspace").Enemies:FindFirstChild(Ms) then
+										for i,v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
+											if v.Name == Ms and v:FindFirstChild("Humanoid") then
+												if v.Humanoid.Health > 0 then
+													if string.find(game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest.Container.QuestTitle.Title.Text, NameMon) then
+														repeat wait()
+															_G.Part = true
+															EquipTool(SelectTool)
+															AutoHaki()
+															ToTarget1(v.HumanoidRootPart.CFrame * CFrame.new(0,30,0))
+															if v.Humanoid:FindFirstChild("Animator") then
+																v.Humanoid.Animator:Destroy()
+															end
+															v.Humanoid:ChangeState(11)
+															v.Humanoid:ChangeState(14)
+															v.Humanoid.JumpPower = 0
+															v.Humanoid.WalkSpeed = 0
+															v.HumanoidRootPart.CanCollide = false
+															v.HumanoidRootPart.Size = Vector3.new(3,3,3)
+															PosMon = v.HumanoidRootPart.CFrame
+															LevelBring = true
+														until _G.AutoFarmLevelFast == false or v.Humanoid.Health <= 0 or game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest.Visible == false or not game:GetService("Workspace").Enemies:FindFirstChild(Ms)
+														_G.Part = false
+													else
+														LevelBring = false
+														local args = {
+															[1] = "AbandonQuest"
+														}
+			
+														game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
+													end
+												end
+											end
+										end
+									else
+										LevelBring = false
+										ToTarget2(MonPos)
+									end
+								end)
 							end
 						end
 					end
+				elseif game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest.Visible == false then
+					LevelBring = false
+					ToTarget2(QuestPos)
+					local args = {
+						[1] = "StartQuest",
+						[2] = QuestName,
+						[3] = QuestLevel
+					}
+					game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
+					CheckLv()
 				elseif game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest.Visible == true then
 					pcall(function()
 						CheckLv()
@@ -878,8 +942,28 @@ if game:GetService("ReplicatedStorage").Effect.Container:FindFirstChild("Respawn
 	game:GetService("ReplicatedStorage").Effect.Container.Respawn:Destroy()
 end
 
+_G.Team = "Pirate" -- Pirate , Marine
+
 wait(.5)
-game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("SetTeam","Pirates") 
+if game:GetService("Players").LocalPlayer.PlayerGui.Main:FindFirstChild("ChooseTeam") then
+	repeat wait()
+		if game:GetService("Players").LocalPlayer.PlayerGui:WaitForChild("Main").ChooseTeam.Visible == true then
+			if _G.Team == "Pirate" then
+				for i, v in pairs(getconnections(game:GetService("Players").LocalPlayer.PlayerGui.Main.ChooseTeam.Container.Pirates.Frame.ViewportFrame.TextButton.Activated)) do                                                                                                
+					v.Function()
+				end
+			elseif _G.Team == "Marine" then
+				for i, v in pairs(getconnections(game:GetService("Players").LocalPlayer.PlayerGui.Main.ChooseTeam.Container.Marines.Frame.ViewportFrame.TextButton.Activated)) do                                                                                                
+					v.Function()
+				end
+			else
+				for i, v in pairs(getconnections(game:GetService("Players").LocalPlayer.PlayerGui.Main.ChooseTeam.Container.Pirates.Frame.ViewportFrame.TextButton.Activated)) do                                                                                                
+					v.Function()
+				end
+			end
+		end
+	until game.Players.LocalPlayer.Team ~= nil and game:IsLoaded()
+end
 ------------------------------------------------------------
 local Window = Library:CreateWindow({
     Title = 'Zerkro Hub - Premium Edition | Blox Fruits',
