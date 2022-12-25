@@ -877,6 +877,9 @@ end
 if game:GetService("ReplicatedStorage").Effect.Container:FindFirstChild("Respawn") then
 	game:GetService("ReplicatedStorage").Effect.Container.Respawn:Destroy()
 end
+
+wait(.5)
+game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("SetTeam","Pirates") 
 ------------------------------------------------------------
 local Window = Library:CreateWindow({
     Title = 'Zerkro Hub - Premium Edition | Blox Fruits',
@@ -900,8 +903,15 @@ local StatR1 = Tabs.Stat:AddRightGroupbox('Auto Stat')
 local TpL1 = Tabs.Tp:AddLeftGroupbox('Island')
 local TpR1 = Tabs.Tp:AddRightGroupbox('World')
 local ShopL1 = Tabs.Shop:AddLeftGroupbox('Devil Fruits')
+local ShopL2 = Tabs.Shop:AddLeftGroupbox('Orther')
+local ShopL3 = Tabs.Shop:AddLeftGroupbox('Fighting Style')
+local ShopL4 = Tabs.Shop:AddLeftGroupbox('Accessorys')
+local ShopR1 = Tabs.Shop:AddRightGroupbox('Abilities')
+local ShopR2 = Tabs.Shop:AddRightGroupbox('Swords')
+local ShopR3 = Tabs.Shop:AddRightGroupbox('Guns')
 local MiscL1 = Tabs.Misc:AddLeftGroupbox('More Functions')
 local MiscR1 = Tabs.Misc:AddRightGroupbox('Servers')
+local MiscR2 = Tabs.Misc:AddRightGroupbox('Teams')
 local Level = MainL1:AddTab('Level')
 local Boss = MainL1:AddTab('Boss')
 
@@ -1193,13 +1203,157 @@ Toggles.AutoRandomFruit:OnChanged(function(value)
     _G.AutoRandomFruit = value
 end)
 
-ShopL1:AddButton("Random Fruit",function()
+ShopL1:AddButton('Random Fruit',function()
 	local args = {
 		[1] = "Cousin",
 		[2] = "Buy"
 	}
 
 	game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
+end)
+
+ShopL2:AddButton('Refund Stat [2,500F]',function()
+	game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("BlackbeardReward","Refund","1")
+    game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("BlackbeardReward","Refund","2")
+end)
+
+ShopL2:AddButton('Reroll Race [3,000F]',function()
+	game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("BlackbeardReward","Reroll","1")
+	game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("BlackbeardReward","Reroll","2")
+end)
+
+ShopL3:AddButton('Black Leg',function()
+	game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("BuyBlackLeg")
+end)
+
+ShopL3:AddButton('Electro',function()
+	game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("BuyElectro")
+end)
+
+ShopL3:AddButton('Fishman Karate',function()
+	game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("BuyFishmanKarate")
+end)
+
+ShopL3:AddButton('Dragon Claw',function()
+	game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("BlackbeardReward","DragonClaw","1")
+	game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("BlackbeardReward","DragonClaw","2")
+end)
+
+ShopL3:AddButton('Superhuman',function()
+	game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("BuySuperhuman")
+end)
+
+ShopL3:AddButton('Death Step',function()
+ 	game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("BuyDeathStep")
+end)
+
+ShopL3:AddButton('Sharkman Karate',function()
+ 	game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("BuySharkmanKarate",true)
+ 	game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("BuySharkmanKarate")
+end)
+
+ShopL3:AddButton('Electric Claw',function()
+ 	game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("BuyElectricClaw",true)
+ 	game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("BuyElectricClaw")
+end)
+
+ShopL3:AddButton('Dragon Talon',function()
+ 	game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("BuyDragonTalon",true)
+ 	game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("BuyDragonTalon")
+end)
+
+ShopL3:AddButton('God Human',function()
+	game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("BuyGodhuman",true)
+	game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("BuyGodhuman")
+end)
+
+ShopR1:AddButton("Skyjump", function()
+	game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("BuyHaki","Geppo")
+end)
+
+ShopR1:AddButton("Buso Haki", function()
+	game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("BuyHaki","Buso")
+end)
+
+ShopR1:AddButton("Soru", function()
+   game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("BuyHaki","Soru")
+end)
+
+ShopR1:AddButton("Ken Haki", function()
+    game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("KenTalk","Buy")
+end)
+
+ShopR2:AddButton("Katana", function()
+    game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("BuyItem","Katana")
+end)
+
+ShopR2:AddButton("Cutlass", function()
+    game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("BuyItem","Cutlass")
+end)
+
+ShopR2:AddButton("Duel Katana", function()
+    game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("BuyItem","Duel Katana")
+end)
+
+ShopR2:AddButton("Iron Mace", function()
+    game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("BuyItem","Iron Mace")
+end)
+
+ShopR2:AddButton("Pipe", function()
+    game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("BuyItem","Pipe")
+end)
+
+ShopR2:AddButton("Triple Katana", function()
+    game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("BuyItem","Triple Katana")
+end)
+
+ShopR2:AddButton("Dual-Headed Blade", function()
+    game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("BuyItem","Dual-Headed Blade")
+end)
+
+ShopR2:AddButton("Bisento", function()
+    game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("BuyItem","Bisento")
+end)
+
+ShopR2:AddButton("Soul Cane", function()
+    game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("BuyItem","Soul Cane")
+end)
+
+ShopR3:AddButton("Slingshot", function()
+    game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("BuyItem","Slingshot")
+end)
+
+ShopR3:AddButton("Musket", function()
+    game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("BuyItem","Musket")
+end)
+
+ShopR3:AddButton("Flintlock", function()
+    game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("BuyItem","Flintlock")
+end)
+
+ShopR3:AddButton("Refined Flintlock", function()
+    game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("BuyItem","Refined Flintlock")
+end)
+
+ShopR3:AddButton("Cannon", function()
+    game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("BuyItem","Cannon")
+end)
+
+ShopR3:AddButton("Kabucha", function()
+    game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("BlackbeardReward","Slingshot","1")
+    game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("BlackbeardReward","Slingshot","2")
+end)
+
+ShopL4:AddButton("Black Cape", function()
+    game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("BuyItem","Black Cape")
+end)
+
+ShopL4:AddButton("Toemo Ring", function()
+    game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("BuyItem","Tomoe Ring")
+end)
+
+ShopL4:AddButton("Swordsman Hat", function()
+    game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("BuyItem","Swordsman Hat")
 end)
 
 --Misc
@@ -1223,4 +1377,12 @@ end)
 
 MiscR1:AddButton("Rejoin Server",function()
 	game:GetService("TeleportService"):Teleport(game.PlaceId, game:GetService("Players"))
+end)
+
+MiscR2:AddButton('Join Pirates Team',function()
+	game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("SetTeam","Pirates")
+end)
+
+MiscR2:AddButton('Join Marines Team',function()
+	game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("SetTeam","Marines")
 end)
